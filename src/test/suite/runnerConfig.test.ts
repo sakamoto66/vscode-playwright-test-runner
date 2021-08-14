@@ -80,21 +80,6 @@ describe('runnerConfig', async () => {
 			assert.strictEqual(assetRootDir+'/packages/subpackage', config.projectPath);
 		});
 	
-		it('isYarnPnpSupportEnabled test false', async () => {
-			await conf.update('enableYarnPnpSupport', false);
-			assert.strictEqual(false, RunnerConfig.isYarnPnpSupportEnabled);
-		});
-	
-		it('isYarnPnpSupportEnabled test true', async () => {
-			await conf.update('enableYarnPnpSupport', true);
-			assert.strictEqual(true, RunnerConfig.isYarnPnpSupportEnabled);
-		});
-	
-		it('isYarnPnpSupportEnabled test undefined', async () => {
-			await conf.update('enableYarnPnpSupport', undefined);
-			assert.strictEqual(false, RunnerConfig.isYarnPnpSupportEnabled);
-		});
-		
 		it('isCodeLensDisabled test false', async () => {
 			await conf.update('disableCodeLens', false);
 			assert.strictEqual(false, RunnerConfig.isCodeLensDisabled);

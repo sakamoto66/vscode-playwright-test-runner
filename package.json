@@ -35,12 +35,6 @@
             "description": "Playwright config path (relative to ${workFolder} e.g. playwright.config.js)",
             "scope": "window"
           },
-          "playwrightrunner.playwrightPath": {
-            "type": "string",
-            "default": "",
-            "description": "Absolute path to playwright bin file (e.g. /usr/lib/node_modules/playwright/lib/cli/cli.js)",
-            "scope": "window"
-          },
           "playwrightrunner.projectPath": {
             "type": "string",
             "default": "${packageRoot}",
@@ -79,12 +73,6 @@
             "type": "string",
             "default": "**/*.{test,spec}.{js,jsx,ts,tsx}",
             "description": "CodeLens will be shown on files matching this pattern"
-          },
-          "playwrightrunner.enableYarnPnpSupport": {
-            "type": "boolean",
-            "default": false,
-            "description": "Enable if you are using Yarn 2 with Plug'n'Play",
-            "scope": "window"
           },
           "playwrightrunner.changeDirectoryToWorkspaceRoot": {
             "type": "boolean",

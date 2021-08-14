@@ -13,10 +13,6 @@ export class RunnerConfig {
     return filepath;
   }
 
-  public static get isYarnPnpSupportEnabled(): boolean {
-    return Boolean(vscode.workspace.getConfiguration().get('playwrightrunner.enableYarnPnpSupport'));
-  }
-
   public static get isCodeLensDisabled(): boolean {
     return Boolean(vscode.workspace.getConfiguration().get('playwrightrunner.disableCodeLens'));
   }
