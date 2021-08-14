@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.6.1 - 2021-08-14
+## 0.6.2 - 2021-08-14
 
 - Feature: change terminal to debug console when run debug.
 - Feature: remove setting value "playwrightrunner.playwrightPath"
