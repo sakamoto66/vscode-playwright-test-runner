@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.6.1 - 2021-08-14
+
+- Feature: change terminal to debug console when run debug.
+- Feature: remove setting value "playwrightrunner.playwrightPath"
+- Feature: remove setting value "playwrightrunner.enableYarnPnpSupport"
+- Feature: update Readme
+
 ## 0.5.2 - 2021-07-26
 
 - Fix: faild when add option '--headed' on debug mode.
