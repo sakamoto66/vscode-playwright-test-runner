@@ -22,7 +22,7 @@ Run, Debug and Inspect your Playwright from
 - Inspect playwrigt test
 - Show Playwright Test Report By json format
 
-![Extension Example](https://github.com/sakamoto66/vscode-playwright-test-runner/raw/master/media/sample.mp4)
+![Extension Example](https://github.com/sakamoto66/vscode-playwright-test-runner/raw/master/media/sample.gif)
 
 ## Extension Settings
 
