@@ -9,18 +9,11 @@ Running or debugging a specific test or test-suite by playwright.
 Simple way to run or debug a specific test
 *As it is possible in IntelliJ / Webstorm*
 
-Run, Debug and Inspect your Playwright and Jest Tests from
+Run, Debug and Inspect your Playwright from
 
 - Context-Menu
 - CodeLens
 - Command Palette [ strg(ctrl) + shift + p ]
-
-## Supports
-
-- yarn & vscode workspaces (monorepo)
-- dynamic jest config resolution  
-- yarn 2 pnp
-- CRA & and similar abstractions
 
 ![Extension Example](https://github.com/firsttris/vscode-jest/raw/master/public/vscode-jest.gif)
 
