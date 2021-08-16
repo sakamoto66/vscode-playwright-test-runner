@@ -12,7 +12,7 @@
 import { readFileSync } from 'fs';
 import * as parser from '@babel/parser';
 import { parseOptions } from './helper';
-import { escapeRegExp } from './util';
+import { escapeRegExp, resolveTestNameStringInterpolation } from './util';
 
 export class TestCode {
   public prefix: string = '';
@@ -23,6 +23,12 @@ export class TestCode {
   public startcolumn: number = -1;
   public endline: number = -1;
   public endcolumn: number = -1;
+  public get testPattern(): string | undefined {
+    if("test"===this.type) {
+      return resolveTestNameStringInterpolation(this.fullname)+"$";
+    }
+    return resolveTestNameStringInterpolation(this.fullname)+"\\s+\\S+";
+  }
 }
 
 export const parse = (filepath: string, data?: string): TestCode[] => {

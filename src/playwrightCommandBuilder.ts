@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { RunnerConfig } from './runnerConfig';
-import { escapeRegExpForPath, escapeSingleQuotes, normalizePath, pushMany, quote } from './util';
+import { escapeRegExpForPath, escapeRegExp, normalizePath, pushMany, escapeShell } from './util';
 const merge = require('deepmerge');
 
 export class PlaywrightCommandBuilder {
@@ -44,17 +44,17 @@ export class PlaywrightCommandBuilder {
     const config = new RunnerConfig(filePath);
     const args: string[] = [];
     args.push('show-trace');
-    args.push(quote(escapeRegExpForPath(normalizePath(filePath.fsPath))));
+    args.push(escapeShell(escapeRegExpForPath(normalizePath(filePath.fsPath))));
     return `${config.playwrightCommand} ${args.join(' ')}`;
   }
 
   private static buildArgs(config:RunnerConfig, filePath: vscode.Uri, testName?: string, withQuotes?: boolean, options: string[] = []): string[] {
     const args: string[] = [];
-    const quoter = withQuotes ? quote : (str:string) => str;
+    const quoter = withQuotes ? escapeShell : (str:string) => str;
 
     args.push('test');
 
-    const testfile = path.relative(config.projectPath + '/tests', filePath.fsPath).replace(/\\/g, '/');
+    const testfile = path.relative(config.projectPath + '/tests', filePath.fsPath);
 
     args.push(quoter(escapeRegExpForPath(normalizePath(testfile))));
 
@@ -66,7 +66,7 @@ export class PlaywrightCommandBuilder {
 
     if (testName) {
       args.push('-g');
-      args.push(quoter(escapeSingleQuotes(testName)));
+      args.push(withQuotes ? `"${testName}"` : testName);
     }
 
     const setOptions = new Set(options);

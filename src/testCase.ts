@@ -54,7 +54,7 @@ export class TestCase {
       const tests = parse(filePath, text);
       const testcode = findTestCode(tests, selectedLine);
   
-      return testcode ? resolveTestNameStringInterpolation(testcode.fullname) : undefined;
+      return testcode ? testcode.testPattern : undefined;
     }
   }
   

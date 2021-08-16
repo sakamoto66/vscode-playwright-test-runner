@@ -20,9 +20,10 @@ export function escapeRegExpForPath(s: string): string {
 }
 
 export function resolveTestNameStringInterpolation(s: string): string {
-  const variableRegex = /(\${?[A-Za-z0-9_]+}?|%[psdifjo#%])/gi;
-  const matchAny = '(.*?)';
-  return s.replace(variableRegex, matchAny);
+  return s.replace(/[.*+?()[\]\\]/g, '\\$&')
+    .replace(/\${[A-Za-z0-9_]+}/gi, '(.*?)')
+    .replace(/\s+/g, '\\s+')
+    .replace(/["$^<>|]/g, '\\S');
 }
 
 const QUOTES = ['"',"'",'`'];
@@ -35,10 +36,9 @@ export function escapeSingleQuotes(s: string): string {
   return isWindows() ? s : s.replace(/'/g, "'\\''");
 }
 
-export function quote(s: string): string {
-  const q = isWindows() ? '"' : `'`;
-  return [q, s, q].join('');
-}
+export function escapeShell(cmd:string) {
+  return '"'+cmd.replace(/(["'$`\\])/g,'\\$1')+'"';
+};
 
 export function unquote(s: string): string {
   if (-1 < QUOTES.indexOf(s[0])) {
