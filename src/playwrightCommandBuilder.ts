@@ -54,7 +54,7 @@ export class PlaywrightCommandBuilder {
 
     args.push('test');
 
-    const testfile = path.relative(config.projectPath + '/tests', filePath.fsPath);
+    const testfile = path.basename(filePath.fsPath);
 
     args.push(quoter(escapeRegExpForPath(normalizePath(testfile))));
 
