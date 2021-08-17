@@ -47,6 +47,15 @@ export class PlaywrightCommandBuilder {
     args.push(escapeShell(escapeRegExpForPath(normalizePath(filePath.fsPath))));
     return `${config.playwrightCommand} ${args.join(' ')}`;
   }
+  
+  public static buildCodeGenCommand(filePath: vscode.Uri): string {
+    const config = new RunnerConfig(filePath);
+    const args: string[] = [];
+    args.push('codegen');
+    args.push('-o');
+    args.push(escapeShell(escapeRegExpForPath(normalizePath(filePath.fsPath))));
+    return `${config.playwrightCommand} ${args.join(' ')}`;
+  }
 
   private static buildArgs(config:RunnerConfig, filePath: vscode.Uri, testName?: string, withQuotes?: boolean, options: string[] = []): string[] {
     const args: string[] = [];

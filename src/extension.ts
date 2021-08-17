@@ -1,5 +1,7 @@
 'use strict';
 import * as vscode from 'vscode';
+import * as path from 'path';
+import * as fs from 'fs';
 import { MultiRunner } from './multiRunner';
 import { TestCase } from './testCase';
 import { PlaywrightRunnerCodeLensProvider } from './codeLensProvider';
@@ -109,18 +111,32 @@ export function activate(context: vscode.ExtensionContext): void {
       });
     }
   ));
-  //テスト結果をレポートする
+  //show test report
   context.subscriptions.push(vscode.commands.registerCommand(
     'playwright.showTestReport',
     (uri:vscode.Uri) => {
       testReporter.update(uri);
   }));
-  //トレースを実行する
+  //show trace
   context.subscriptions.push(vscode.commands.registerCommand(
     'playwright.showTrace',
     (uri:vscode.Uri) => {
       const cmd = PlaywrightCommandBuilder.buildShowTraceCommand(uri);
       multiRunner.runTerminalCommand('playwright', cmd);
+  }));
+  //generate code
+  context.subscriptions.push(vscode.commands.registerCommand(
+    'playwright.codeGen',
+    (uri:vscode.Uri) => {
+      const outputPath:string = uri.fsPath;
+      inputTestFileBox(outputPath).then( inputVal => {
+        if(!inputVal) {
+          return;
+        }
+        const uri = vscode.Uri.file(path.join(outputPath, inputVal)); 
+        const cmd = PlaywrightCommandBuilder.buildCodeGenCommand(uri);
+        multiRunner.runTerminalCommand('playwright', cmd);
+      });
   }));
   
   if (!config.isCodeLensDisabled) {
@@ -134,4 +150,19 @@ export function activate(context: vscode.ExtensionContext): void {
 
 export function deactivate(): void {
   // deactivate
+}
+
+async function inputTestFileBox(outputPath:string):Promise<string|undefined> {
+  let finame:string = "sample.spec.ts";
+  let cnt = 0;
+  while (fs.existsSync(path.join(outputPath, finame))) {
+    finame = `sample${++cnt}.spec.ts`;
+  }
+  const options: vscode.InputBoxOptions = {
+      prompt: "input filename to generate playwright test code.",
+      value: finame,
+      placeHolder: "(e.g:sample.spec.ts)",
+      valueSelection: [0, finame.split('.')[0].length],
+  };
+  return vscode.window.showInputBox(options);
 }

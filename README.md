@@ -21,8 +21,9 @@ Run, Debug and Inspect your Playwright from
 - Debug playwright test
 - Inspect playwrigt test
 - Show Playwright Test Report By json format
+- Genrate Playwright Test Code
 
-![Extension Example](https://github.com/sakamoto66/vscode-playwright-test-runner/raw/master/media/sample.gif)
+![Extension Example](public/sample.gif)
 
 ## Extension Settings
 
@@ -106,3 +107,21 @@ Run playwright
 show playwright test report
 
 ![image](public/playwright-test-report.png)
+
+## Genearete Playwright Test Code
+
+You can generate Playright test code.
+
+- step 1  
+select "Generate Playwright Test Code" from right menu on explorer.
+
+- step 2  
+please input filename to generate playwright test code. 
+
+- step 3  
+open browser and inspect
+
+- step 4  
+close browser and genrate test code.
+
+![image](public/playwright-generate-code.png)

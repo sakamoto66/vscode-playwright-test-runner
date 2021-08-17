@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.0.0 - 2021-08-17
+
+- Feature: supported codege form menue of explorer.
+- Feature: supported "test.describe.serial".
+- Feature: Changed the test case specification to a regular expression.
+- Fix: Fixed an issue where multiple terminals would launch.
+
 ## 0.6.2 - 2021-08-14
 
 - Feature: change terminal to debug console when run debug.
