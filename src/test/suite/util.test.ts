@@ -92,28 +92,21 @@ describe('util', () => {
 		assert.strictEqual(assetRootDir+'/packages/subpackage/aaa/bbb', output);
 	});
 	it('resolveTestNameStringInterpolation %i', () => {
-		assert.strictEqual(resolveTestNameStringInterpolation('%i'), '(.*?)');
+		assert.strictEqual(resolveTestNameStringInterpolation('%i'), '%i');
 	});
 
 	it('resolveTestNameStringInterpolation $expected', () => {
-		assert.strictEqual(resolveTestNameStringInterpolation('$expected'), '(.*?)');
+		assert.strictEqual(resolveTestNameStringInterpolation('${expected}'), '(.*?)');
 	});
 
 	it('resolveTestNameStringInterpolation ${i}', () => {
 		assert.strictEqual(resolveTestNameStringInterpolation('${i}'), '(.*?)');
 	});
 
-	it('resolveTestNameStringInterpolation $a + $b returned value not be less than ${i}', () => {
-		assert.strictEqual(resolveTestNameStringInterpolation('$a + $b returned value not be less than ${i}'), '(.*?) + (.*?) returned value not be less than (.*?)');
+	it('resolveTestNameStringInterpolation ${a} + ${b} = ${c}', () => {
+		assert.strictEqual(resolveTestNameStringInterpolation('${a} + ${b} = ${c}'), '(.*?)\\s+\\+\\s+(.*?)\\s+=\\s+(.*?)');
 	});
-
-	it('resolveTestNameStringInterpolation returns $expected when $a is added $b', () => {
-		assert.strictEqual(resolveTestNameStringInterpolation('returns $expected when $a is added $b'), 
-	'returns (.*?) when (.*?) is added (.*?)'
-	);
-	});
-
-	it('resolveTestNameStringInterpolation .add(%i, %i) returns ${i}', () => {
-		assert.strictEqual(resolveTestNameStringInterpolation('.add(%i, %i) returns ${i}'), '.add((.*?), (.*?)) returns (.*?)');
+	it('resolveTestNameStringInterpolation escape ",$,^,<,>,|', () => {
+		assert.strictEqual(resolveTestNameStringInterpolation('escape ",$,^,<,>,|'), 'escape\\s+\\S,\\S,\\S,\\S,\\S,\\S');
 	});
 });

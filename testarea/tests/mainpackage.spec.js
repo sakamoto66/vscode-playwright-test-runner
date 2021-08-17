@@ -15,3 +15,16 @@ test.describe.serial('describe 02', () => {
   test('runs first 02', async ({ page }) => { /* ... */ });
   test('runs second 02', async ({ page }) => { /* ... */ });
 });
+
+
+test.describe('describe 03', () => {
+  for(let idx=0;idx<3;idx++){
+    test(`runs first 03 ${idx}`, async ({ page }) => { /* ... */ });
+    test(`(runs) first 03 ${idx} aaa`, async ({ page }) => { /* ... */ });
+  }
+  test('runs "first" 03', async ({ page }) => {
+    test.step('step01', async () =>{
+      /* ... */
+    });
+  });
+});

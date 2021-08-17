@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { isWindows, normalizePath, quote, PredefinedVars } from './util';
+import { PredefinedVars } from './util';
 
 export class RunnerConfig {
   private base:vscode.Uri = vscode.Uri.file('.');

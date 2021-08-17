@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { quote } from './util';
+import { escapeShell } from './util';
 import { RunnerConfig } from './runnerConfig';
 import { TestCase } from './testCase';
 
@@ -16,16 +16,13 @@ export class MultiRunner {
   private previousRunCommand: RunCommand | undefined;
   private previousDebugCommand: DebugCommand | undefined;
 
-  private terminals:any = {};
-
   constructor() {
-    this.setup();
   }
 
   public async runTest(testcase:TestCase, options?: string[]): Promise<void> {
     const config = new RunnerConfig(testcase.filePath);
     const cmds = [];
-    RunnerConfig.changeDirectoryToWorkspaceRoot && cmds.push(`cd ${quote(config.projectPath)}`);
+    RunnerConfig.changeDirectoryToWorkspaceRoot && cmds.push(`cd ${escapeShell(config.projectPath)}`);
     cmds.push(testcase.buildRunCommand(options));
 
     await this.executeRunCommand({
@@ -74,18 +71,12 @@ export class MultiRunner {
   }
 
   public async runTerminalCommand(terminalName:string, ...commands: string[]) {
-    if (!this.terminals[terminalName]) {
-      this.terminals[terminalName] = vscode.window.createTerminal(terminalName);
+    let terminal = vscode.window.terminals.find(terminal => terminal.name === terminalName);
+    if (!terminal) {
+      terminal = vscode.window.createTerminal(terminalName);
     }
-    const terminal = this.terminals[terminalName];
     terminal.show();
     await vscode.commands.executeCommand('workbench.action.terminal.clear');
-    commands.forEach( command => terminal.sendText(command) );
-  }
-
-  private setup() {
-    vscode.window.onDidCloseTerminal(() => {
-      this.terminals = {};
-    });
+    commands.forEach( command => terminal?.sendText(command) );
   }
 }
