@@ -131,6 +131,10 @@
       {
         "command": "playwright.showTrace",
         "title": "Show Playwright Trace"
+      },
+      {
+        "command": "playwright.codeGen",
+        "title": "Generate Playwright Code"
       }
     ],
     "menus": {
@@ -138,39 +142,44 @@
         {
           "command": "playwright.runTestPath",
           "when": "resourceLangId == javascript || resourceLangId == typescript",
-          "group": "02_playwright"
+          "group": "playwright"
         },
         {
           "command": "playwright.debugTestPath",
           "when": "resourceLangId == javascript || resourceLangId == typescript",
-          "group": "02_playwright"
+          "group": "playwright"
         },
         {
           "command": "playwright.showTestReport",
           "when": "resourceLangId == json",
-          "group": "02_playwright"
+          "group": "playwright"
         },
         {
           "command": "playwright.showTrace",
           "when": "resourceExtname == .zip",
-          "group": "02_playwright"
+          "group": "playwright"
+        },
+        {
+          "command": "playwright.codeGen",
+          "when": "explorerResourceIsFolder",
+          "group": "playwright"
         }
       ],
       "editor/context": [
         {
           "command": "playwright.runTest",
           "when": "resourceLangId == javascript || resourceLangId == typescript",
-          "group": "02_playwright"
+          "group": "playwright"
         },
         {
           "command": "playwright.debugTest",
           "when": "resourceLangId == javascript || resourceLangId == typescript",
-          "group": "02_playwright"
+          "group": "playwright"
         },
         {
           "command": "playwright.showTestReport",
           "when": "resourceLangId == json",
-          "group": "02_playwright"
+          "group": "playwright"
         }
       ]
     }
