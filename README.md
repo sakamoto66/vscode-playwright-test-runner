@@ -44,16 +44,16 @@ sample : `/workspace/packages/sample/tests/test.spec.js`
 |`${fileExtname}`|the current file name with ext.| .js |
 |`${fileDirname}`|the current file name with ext.| /workspace/packages/sample/tests |
 
-### Command for playwright
+### Extension Settings for playwright
 
 | Command | Description |
 | --- | --- |
-| playwrightrunner.playwrightCommand | Define an alternative playwright command (e.g. for Create React App and similar abstractions) |
-| playwrightrunner.playwrightConfigPath | Playwright config path (relative to ${packageRoot} e.g. playwright-config.js) |
-| playwrightrunner.playwrightRunOptions | Add CLI Options to the playwright Command (e.g. `"playwrightrunner.playwrightRunOptions": ["--coverage", "--colors"]`) <https://playwright.dev/docs/test-intro> |
-| playwrightrunner.playwrightDebugOptions | Add or overwrite vscode debug configurations (only in debug mode) (e.g. `"playwrightrunner.playwrightDebugOptions": { "args": ["--no-cache"] }`) |
+| playwrightrunner.playwrightCommand | Define an alternative playwright command (e.g. `npx playwright`) |
+| playwrightrunner.playwrightConfigPath | Playwright config path (relative to ${packageRoot} e.g. `playwright.config.ts`) |
+| playwrightrunner.playwrightRunOptions | Add CLI Options to the playwright Command (e.g. `--headed`) <https://playwright.dev/docs/test-intro> |
+| playwrightrunner.playwrightEnvironmentVariables | Add Environment Variables  (e.g. `NODE_ENV=product`) |
 
-### Command for common
+### Extension Settings for common
 
 | Command | Description |
 | --- | --- |
@@ -116,7 +116,7 @@ You can generate Playright test code.
 select "Generate Playwright Test Code" from right menu on explorer.
 
 - step 2  
-please input filename to generate playwright test code. 
+please input filename to generate playwright test code.
 
 - step 3  
 open browser and inspect
