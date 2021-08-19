@@ -81,7 +81,6 @@ export class MultiRunner {
       terminal = vscode.window.createTerminal(terminalName);
     }
     terminal.show();
-    await vscode.commands.executeCommand('workbench.action.terminal.clear');
     commands.forEach( command => terminal?.sendText(command) );
   }
 }
