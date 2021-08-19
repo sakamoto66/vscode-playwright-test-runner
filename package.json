@@ -2,7 +2,7 @@
   "name": "vscode-playwright-test-runner",
   "displayName": "Playwright Test Runner",
   "description": "Simple way to run or debug a single (or multiple) tests from context-menu",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "sakamoto66",
   "author": {
     "name": "sakamoto66",
@@ -51,16 +51,25 @@
             "type": "array",
             "default": [],
             "items": {
-              "type": "string",
-              "description": "CLI Option e.g. --browser=all"
+              "type": "string"
             },
-            "description": "Add CLI Options to the Playwright Command e.g. https://playwright.dev/docs/test-intro",
+            "description": "Add CLI Options to the Playwright Command (e.g. https://playwright.dev/docs/test-intro)",
+            "scope": "window"
+          },
+          "playwrightrunner.playwrightEnvironmentVariables": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "string",
+              "pattern":".+=.*"
+            },
+            "description": "Add Environment Variables to the Playwright Command. (e.g. NODE_ENV=product)",
             "scope": "window"
           },
           "playwrightrunner.playwrightCommand": {
             "type": "string",
             "default": "",
-            "description": "Define an alternative playwright command (e.g. for Create React App and similar abstractions)",
+            "description": "Define an alternative playwright command (default:npx playwright)",
             "scope": "window"
           },
           "playwrightrunner.disableCodeLens": {

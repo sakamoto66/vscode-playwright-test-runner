@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.0 - 2021-08-19
+
+- Feature: add playwrightrunner.playwrightEnvironmentVariables
+- Feature: remove playwrightrunner.playwrightDebugOptions
+- Fix: Fixed an issue where command execution would fail if playwrightrunner.playwrightCommand was set.
+
 ## 1.0.0 - 2021-08-17
 
 - Feature: supported codege form menue of explorer.

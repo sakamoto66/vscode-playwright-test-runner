@@ -43,9 +43,8 @@ export class RunnerConfig {
     return vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightRunOptions') || [];
   }
 
-  public get playwrightDebugOptions(): Partial<vscode.DebugConfiguration> {
-    const debugOptions = vscode.workspace.getConfiguration().get<Partial<vscode.DebugConfiguration>>('playwrightrunner.playwrightDebugOptions');
-    return debugOptions || {};
+  public get playwrightEnvironmentVariables(): string[] {
+    return vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightEnvironmentVariables') || [];
   }
 
 

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { escapeShell } from './util';
+import { escapeShell, getEnvCommands } from './util';
 import { RunnerConfig } from './runnerConfig';
 import { TestCase } from './testCase';
 
@@ -22,7 +22,12 @@ export class MultiRunner {
   public async runTest(testcase:TestCase, options?: string[]): Promise<void> {
     const config = new RunnerConfig(testcase.filePath);
     const cmds = [];
+    // cwd
     RunnerConfig.changeDirectoryToWorkspaceRoot && cmds.push(`cd ${escapeShell(config.projectPath)}`);
+    // setting envs
+    const envs = getEnvCommands(config.playwrightEnvironmentVariables);
+
+    cmds.push(...envs);
     cmds.push(testcase.buildRunCommand(options));
 
     await this.executeRunCommand({
@@ -76,7 +81,6 @@ export class MultiRunner {
       terminal = vscode.window.createTerminal(terminalName);
     }
     terminal.show();
-    await vscode.commands.executeCommand('workbench.action.terminal.clear');
     commands.forEach( command => terminal?.sendText(command) );
   }
 }
