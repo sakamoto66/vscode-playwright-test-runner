@@ -13,7 +13,6 @@ function getShellType(): string {
       return shell.windows.split('.')[0];
     }
     const defaultProfile:any = vscode.workspace.getConfiguration().get('terminal.integrated.defaultProfile');
-    console.log(defaultProfile);
     if(defaultProfile.windows){
       switch(defaultProfile.windows){
         case 'PowerShell':return 'powershell';
