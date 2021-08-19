@@ -7,30 +7,40 @@ const merge = require('deepmerge');
 export class PlaywrightCommandBuilder {
   public static getDebugConfig(filePath: vscode.Uri, currentTestName?: string, options?: unknown): vscode.DebugConfiguration {
     const config = new RunnerConfig(filePath);
-    const cmds = config.playwrightCommand.split(/\s+/);
-    const executer = cmds.shift();
     const debugCfg: vscode.DebugConfiguration = {
       console: 'internalConsole',
       internalConsoleOptions: "openOnSessionStart",
       outputCapture: "std",
       name: 'playwright',
-      runtimeExecutable:executer,
-      runtimeArgs: cmds,
       request: 'launch',
       type: 'pwa-node',
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      env: { PWDEBUG: 'console' },
-      ...config.playwrightDebugOptions,
+      env: { PWDEBUG: 'console' }
     };
     if(RunnerConfig.changeDirectoryToWorkspaceRoot) {
       debugCfg.cwd = config.projectPath;
     }
 
-    debugCfg.args = debugCfg.args ? debugCfg.args.slice() : [];
+    // setting execute command
+    const cmds = config.playwrightCommand.split(/\s+/);
+    const executer = cmds.shift();
+    if('npx'===executer) {
+      debugCfg.runtimeExecutable = executer;
+      debugCfg.runtimeArgs = cmds;
+    } else {
+      debugCfg.program = config.playwrightCommand;
+    }
 
-    const standardArgs = this.buildArgs(config, filePath, currentTestName, false);
-    pushMany(standardArgs, debugCfg.args);
-    debugCfg.args = standardArgs;
+    // setting args of execute command
+    debugCfg.args = this.buildArgs(config, filePath, currentTestName, false);
+    
+    // setting envs
+    config.playwrightEnvironmentVariables.forEach(env => {
+      const [key,val] = env.split('=');
+      debugCfg.env[key] = val;
+    });
+
+    //
     return options ? merge(debugCfg, options) : debugCfg;
   }
 

@@ -6,6 +6,42 @@ export function isWindows(): boolean {
   return process.platform.includes('win32');
 }
 
+function getShellType(): string {
+  if(isWindows()) {
+    const shell:any = vscode.workspace.getConfiguration().get('terminal.integrated.shell');
+    if(shell.windows){
+      return shell.windows.split('.')[0];
+    }
+    const defaultProfile:any = vscode.workspace.getConfiguration().get('terminal.integrated.defaultProfile');
+    console.log(defaultProfile);
+    if(defaultProfile.windows){
+      switch(defaultProfile.windows){
+        case 'PowerShell':return 'powershell';
+        case 'Command Prompt':return 'cmd';
+        default:return 'sh';
+      }
+    }
+    return 'powershell';
+  }
+  return 'sh';
+}
+
+export function getEnvCommands(envs:string[]): string[] {
+  const shell = getShellType();
+  return envs.map(env => {
+    const [key,val] = env.split('=');
+    return getCommandToSetEnv(shell, key, val);
+  });
+}
+
+function getCommandToSetEnv(shell:string, key:string, val:string): string {
+  switch (shell) {
+      case 'powershell':return `$ENV:${key}="${val}"`;
+      case 'cmd':return `set ${key}=${val}`;
+  }
+  return `export ${key}=${val}`;
+}
+
 export function normalizePath(path: string): string {
   return isWindows() ? path.replace(/\\/g, '/') : path;
 }
