@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as assert from 'assert';
 
 import * as vscode from 'vscode';
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { PlaywrightCommandBuilder } from '../../playwrightCommandBuilder';
 
 describe('playwrightCommandBuilder', () => {
@@ -18,13 +18,13 @@ describe('playwrightCommandBuilder', () => {
 	const file2 = vscode.Uri.joinPath(rootDir, "packages/subpackage/tests/subpackage.spec.js");
 
 	describe('buildCommand', () => {
-		before( async () => {
+		beforeEach( async () => {
 			await conf.update('playwrightCommand', command);
 			await conf.update('playwrightConfigPath', undefined);
 			await vscode.workspace.openTextDocument(file).then(doc => vscode.window.showTextDocument(doc));
 		});
 	
-		after( async () => {
+		afterEach( async () => {
 			await conf.update('playwrightCommand', undefined);
 			await conf.update('playwrightConfigPath', undefined);
 		});
@@ -52,18 +52,19 @@ describe('playwrightCommandBuilder', () => {
 		});	
 	});
 	describe('getDebugConfig', () => {
-		before( async () => {
+		beforeEach( async () => {
 			await conf.update('playwrightCommand', command);
 			await conf.update('playwrightConfigPath', undefined);
 			await vscode.workspace.openTextDocument(file).then(doc => vscode.window.showTextDocument(doc));
 		});
 	
-		after( async () => {
+		afterEach( async () => {
 			await conf.update('playwrightCommand', undefined);
 			await conf.update('playwrightConfigPath', undefined);
 		});
 		
-		it('test 1', async () => {
+		it('test 0', async () => {
+			await conf.update('playwrightCommand', undefined);
 			const cmd = PlaywrightCommandBuilder.getDebugConfig(file);
 			assert.deepStrictEqual(cmd, {
 				args: [
@@ -77,8 +78,29 @@ describe('playwrightCommandBuilder', () => {
 				internalConsoleOptions: "openOnSessionStart",
 				outputCapture:"std",
 				name: "playwright",
-				runtimeExecutable: "sample",
-				runtimeArgs: ["abc"],
+				runtimeExecutable: "npx",
+				runtimeArgs: ["playwright"],
+				request: "launch",
+				type: "pwa-node",
+			});
+		}).timeout(30000);	
+
+		it('test 1', async () => {
+			const cmd = PlaywrightCommandBuilder.getDebugConfig(file);
+			assert.deepStrictEqual(cmd, {
+				args: [
+				  "abc",
+				  "test",
+				  `mainpackage.spec.js`
+				],
+				console: "internalConsole",
+				cwd: assetRootDir,
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				env: {PWDEBUG: "console"},
+				internalConsoleOptions: "openOnSessionStart",
+				outputCapture:"std",
+				name: "playwright",
+				program: "sample",
 				request: "launch",
 				type: "pwa-node",
 			});
@@ -88,6 +110,7 @@ describe('playwrightCommandBuilder', () => {
 			const cmd = PlaywrightCommandBuilder.getDebugConfig(file, 'testcase');
 			assert.deepStrictEqual(cmd, {
 				args: [
+				  "abc",
 				  "test",
 				  `mainpackage.spec.js`,
 				  "-g",
@@ -100,8 +123,7 @@ describe('playwrightCommandBuilder', () => {
 				internalConsoleOptions: "openOnSessionStart",
 				outputCapture:"std",
 				name: "playwright",
-				runtimeExecutable: "sample",
-				runtimeArgs: ["abc"],
+				program: "sample",
 				request: "launch",
 				type: "pwa-node",
 			});
@@ -111,6 +133,7 @@ describe('playwrightCommandBuilder', () => {
 			const cmd = PlaywrightCommandBuilder.getDebugConfig(file, 'testcase', {args:["--aa"], sampleoption1:"aaa", env:{foo:"123"}});
 			assert.deepStrictEqual(cmd, {
 				args: [
+				  "abc",
 				  "test",
 				  `mainpackage.spec.js`,
 				  "-g",
@@ -122,8 +145,7 @@ describe('playwrightCommandBuilder', () => {
 				internalConsoleOptions: "openOnSessionStart",
 				outputCapture:"std",
 				name: "playwright",
-				runtimeExecutable: "sample",
-				runtimeArgs: ["abc"],
+				program: "sample",
 				request: "launch",
 				type: "pwa-node",
 				sampleoption1:"aaa",
@@ -140,6 +162,7 @@ describe('playwrightCommandBuilder', () => {
 			const cmd = PlaywrightCommandBuilder.getDebugConfig(file2);
 			assert.deepStrictEqual(cmd, {
 				args: [
+				  "abc",
 				  "test",
 				  `subpackage.spec.js`
 				],
@@ -150,8 +173,7 @@ describe('playwrightCommandBuilder', () => {
 				internalConsoleOptions: "openOnSessionStart",
 				outputCapture:"std",
 				name: "playwright",
-				runtimeExecutable: "sample",
-				runtimeArgs: ["abc"],
+				program: "sample",
 				request: "launch",
 				type: "pwa-node",
 			});
