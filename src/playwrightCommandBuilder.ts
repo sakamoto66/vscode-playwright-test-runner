@@ -22,17 +22,18 @@ export class PlaywrightCommandBuilder {
     }
 
     // setting execute command
-    const cmds = config.playwrightCommand.split(/\s+/);
+    let cmds = config.playwrightCommand.split(/\s+/);
     const executer = cmds.shift();
-    if('npx'===executer) {
+    if(['npx', 'yarn'].includes(executer||'')) {
       debugCfg.runtimeExecutable = executer;
       debugCfg.runtimeArgs = cmds;
+      cmds = [];
     } else {
-      debugCfg.program = config.playwrightCommand;
+      debugCfg.program = executer;
     }
 
     // setting args of execute command
-    debugCfg.args = this.buildArgs(config, filePath, currentTestName, false);
+    debugCfg.args = [...cmds, ...this.buildArgs(config, filePath, currentTestName, false)];
     
     // setting envs
     config.playwrightEnvironmentVariables.forEach(env => {
