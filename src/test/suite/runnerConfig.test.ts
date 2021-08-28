@@ -57,11 +57,11 @@ describe('runnerConfig', async () => {
 	describe('playwrightEnvironmentVariables', () => {
 		it('playwrightEnvironmentVariables test 1', async () => {
 			await conf.update('playwrightEnvironmentVariables', ["AA=123"]);
-			assert.deepStrictEqual(["AA=123"], config.playwrightEnvironmentVariables);
+			assert.deepStrictEqual({AA:'123'}, config.playwrightEnvironmentVariables);
 		});
 		it('playwrightEnvironmentVariables test default', async () => {
 			await conf.update('playwrightEnvironmentVariables', undefined);
-			assert.deepStrictEqual([], config.playwrightEnvironmentVariables);
+			assert.deepStrictEqual({}, config.playwrightEnvironmentVariables);
 		});
 	});
 	

@@ -104,6 +104,7 @@ describe('playwrightCommandBuilder', () => {
 		afterEach( async () => {
 			await conf.update('playwrightCommand', undefined);
 			await conf.update('playwrightConfigPath', undefined);
+			await conf.update('playwrightEnvironmentVariables', undefined);
 		});
 		
 		it('test 0', async () => {
@@ -221,5 +222,58 @@ describe('playwrightCommandBuilder', () => {
 				type: "pwa-node",
 			});
 		}).timeout(30000);
+
+		it('test 5', async () => {
+			await conf.update('playwrightCommand', undefined);
+			await conf.update('playwrightEnvironmentVariables', ["HOGE=1234"]);
+			const cmd = PlaywrightCommandBuilder.getDebugConfig(file);
+			assert.deepStrictEqual(cmd, {
+				args: [
+				  "test",
+				  `mainpackage.spec.js`
+				],
+				console: "internalConsole",
+				cwd: assetRootDir,
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				env: {PWDEBUG: "console", HOGE:"1234"},
+				internalConsoleOptions: "openOnSessionStart",
+				outputCapture:"std",
+				name: "playwright",
+				runtimeExecutable: "npx",
+				runtimeArgs: ["playwright"],
+				request: "launch",
+				type: "pwa-node",
+			});
+		}).timeout(30000);	
+	});
+	describe('getTerminalOptions', () => {
+		beforeEach( async () => {
+			await conf.update('playwrightCommand', command);
+			await vscode.workspace.openTextDocument(file).then(doc => vscode.window.showTextDocument(doc));
+		});
+	
+		afterEach( async () => {
+			await conf.update('playwrightCommand', undefined);
+			await conf.update('playwrightEnvironmentVariables', undefined);
+		});
+		
+		it('test 0', async () => {
+			const options = PlaywrightCommandBuilder.getTerminalOptions(file);
+			assert.deepStrictEqual(options, {
+				name: "playwright",
+				cwd: assetRootDir,
+				env:{}
+			});
+		});
+		it('test 1', async () => {
+			await conf.update('playwrightEnvironmentVariables', ["ABC=1234"]);
+			const options = PlaywrightCommandBuilder.getTerminalOptions(file);
+			assert.deepStrictEqual(options, {
+				name: "playwright",
+				cwd: assetRootDir,
+				// eslint-disable-next-line @typescript-eslint/naming-convention
+				env: {ABC: "1234"}
+			});
+		});
 	});
 });
