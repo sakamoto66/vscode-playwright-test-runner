@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as vscode from 'vscode';
-import * as child_process from "child_process";
+import * as spawn from 'cross-spawn';
 
 export function isWindows(): boolean {
   return process.platform.includes('win32');
@@ -152,11 +152,10 @@ export class PredefinedVars {
   }
 }
   
-export async function executeBackend(cmd:string): Promise<void> {
+export function executeBackend(cmd:string) {
   vscode.window.showInformationMessage(cmd);
-  child_process.exec(cmd, (error, stdout, stderr) => {
-    if(error instanceof Error) {
-      vscode.window.showErrorMessage(error.message);
-    } 
+  const child = spawn(cmd);
+  child.stderr?.on('data', data => {
+    vscode.window.showErrorMessage('faild execute command.');
   });
 }

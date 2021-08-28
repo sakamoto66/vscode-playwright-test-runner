@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.1.0 - 2021-08-28
+## 1.2.1 - 2021-08-28
 
 - Feature: Changed "playwright show-trace" from terminal startup to process startup.
 - Feature: Changed "playwright codegen" from terminal startup to process startup.
