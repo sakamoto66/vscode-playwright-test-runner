@@ -24,7 +24,7 @@ test.describe('describe 03', () => {
   }
   test('runs "first" 03', async ({ page }) => {
     test.step('step01', async () =>{
-      /* ... */
+      console.log("$env:HOGE="+process.env.HOGE);
     });
   });
 });

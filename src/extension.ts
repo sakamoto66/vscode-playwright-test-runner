@@ -8,6 +8,7 @@ import { PlaywrightRunnerCodeLensProvider } from './codeLensProvider';
 import { RunnerConfig as config } from './runnerConfig';
 import { TestReporter } from './testReporter';
 import { PlaywrightCommandBuilder } from './playwrightCommandBuilder';
+import { executeBackend } from './util';
 
 export function activate(context: vscode.ExtensionContext): void {
   const multiRunner = new MultiRunner();
@@ -122,8 +123,8 @@ export function activate(context: vscode.ExtensionContext): void {
     'playwright.showTrace',
     (uri:vscode.Uri) => {
       const cmd = PlaywrightCommandBuilder.buildShowTraceCommand(uri);
-      multiRunner.runTerminalCommand('playwright', cmd);
-  }));
+      executeBackend(cmd);
+    }));
   //generate code
   context.subscriptions.push(vscode.commands.registerCommand(
     'playwright.codeGen',
@@ -135,7 +136,7 @@ export function activate(context: vscode.ExtensionContext): void {
         }
         const uri = vscode.Uri.file(path.join(outputPath, inputVal)); 
         const cmd = PlaywrightCommandBuilder.buildCodeGenCommand(uri);
-        multiRunner.runTerminalCommand('playwright', cmd);
+        executeBackend(cmd);
       });
   }));
   

@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.1.0 - 2021-08-28
+
+- Feature: Changed "playwright show-trace" from terminal startup to process startup.
+- Feature: Changed "playwright codegen" from terminal startup to process startup.
+- Feature: Changed the definition method of environment variables when starting the terminal.
+- Fix: remove playwrightrunner.playwrightDebugOptions
+
 ## 1.1.0 - 2021-08-19
 
 - Feature: add playwrightrunner.playwrightEnvironmentVariables

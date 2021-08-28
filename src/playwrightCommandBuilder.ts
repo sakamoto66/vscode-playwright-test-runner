@@ -36,13 +36,19 @@ export class PlaywrightCommandBuilder {
     debugCfg.args = [...cmds, ...this.buildArgs(config, filePath, currentTestName, false)];
     
     // setting envs
-    config.playwrightEnvironmentVariables.forEach(env => {
-      const [key,val] = env.split('=');
-      debugCfg.env[key] = val;
-    });
-
+    debugCfg.env = merge(debugCfg.env, config.playwrightEnvironmentVariables);
+    
     //
     return options ? merge(debugCfg, options) : debugCfg;
+  }
+
+  public static getTerminalOptions(filePath: vscode.Uri): vscode.TerminalOptions {
+    const config = new RunnerConfig(filePath);
+    return {
+      name:'playwright',
+      env:config.playwrightEnvironmentVariables,
+      cwd:RunnerConfig.changeDirectoryToWorkspaceRoot ? config.projectPath : undefined
+    };
   }
 
   public static buildCommand(filePath: vscode.Uri, testName?: string, options?: string[]): string {

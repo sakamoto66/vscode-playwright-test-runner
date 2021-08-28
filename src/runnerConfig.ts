@@ -43,8 +43,14 @@ export class RunnerConfig {
     return vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightRunOptions') || [];
   }
 
-  public get playwrightEnvironmentVariables(): string[] {
-    return vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightEnvironmentVariables') || [];
+  public get playwrightEnvironmentVariables(): { [key:string]: string; } {
+    const data:string[] = vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightEnvironmentVariables') || [];
+    const envs:{ [key:string]: string; } = {};
+    data.forEach(env => {
+      const [key,val] = env.split('=');
+      envs[key] = val;
+    });
+    return envs;
   }
 
 

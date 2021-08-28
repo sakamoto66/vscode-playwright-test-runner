@@ -2,7 +2,7 @@
   "name": "vscode-playwright-test-runner",
   "displayName": "Playwright Test Runner",
   "description": "Simple way to run or debug a single (or multiple) tests from context-menu",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "sakamoto66",
   "author": {
     "name": "sakamoto66",
@@ -39,12 +39,6 @@
             "type": "string",
             "default": "${packageRoot}",
             "description": "Absolute path to project directory (e.g. /home/me/project/sub-folder)",
-            "scope": "window"
-          },
-          "playwrightrunner.playwrightDebugOptions": {
-            "type": "object",
-            "default": {},
-            "description": "Add or overwrite vscode debug configurations for Playwright (only in debug mode) (e.g. { \"args\": [\"--browser=all\"] })",
             "scope": "window"
           },
           "playwrightrunner.playwrightRunOptions": {
