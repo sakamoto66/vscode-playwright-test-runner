@@ -51,6 +51,49 @@ describe('playwrightCommandBuilder', () => {
 			await conf.update('playwrightConfigPath', undefined);
 		});	
 	});
+
+	describe('buildShowTraceCommand', () => {
+		const file = vscode.Uri.joinPath(rootDir, "trace.zip");
+	
+		afterEach( async () => {
+			await conf.update('playwrightCommand', undefined);
+			await conf.update('playwrightConfigPath', undefined);
+		});
+
+		it('test 1', async () => {
+			await conf.update('playwrightCommand', undefined);
+			const cmd = PlaywrightCommandBuilder.buildShowTraceCommand(file);
+			assert.deepStrictEqual(`npx playwright show-trace "${file.fsPath.replace(/\\/g,'/')}"`, cmd);
+		});	
+
+		it('test 2', async () => {
+			await conf.update('playwrightCommand', command);
+			const cmd = PlaywrightCommandBuilder.buildShowTraceCommand(file);
+			assert.deepStrictEqual(`${command} show-trace "${file.fsPath.replace(/\\/g,'/')}"`, cmd);
+		});	
+	});
+
+	describe('buildCodeGenCommand', () => {
+		const file = vscode.Uri.joinPath(rootDir, "test.spac.ts");
+	
+		afterEach( async () => {
+			await conf.update('playwrightCommand', undefined);
+			await conf.update('playwrightConfigPath', undefined);
+		});
+
+		it('test 1', async () => {
+			await conf.update('playwrightCommand', undefined);
+			const cmd = PlaywrightCommandBuilder.buildCodeGenCommand(file);
+			assert.deepStrictEqual(`npx playwright codegen -o "${file.fsPath.replace(/\\/g,'/')}"`, cmd);
+		});	
+
+		it('test 2', async () => {
+			await conf.update('playwrightCommand', command);
+			const cmd = PlaywrightCommandBuilder.buildCodeGenCommand(file);
+			assert.deepStrictEqual(`${command} codegen -o "${file.fsPath.replace(/\\/g,'/')}"`, cmd);
+		});	
+	});
+	
 	describe('getDebugConfig', () => {
 		beforeEach( async () => {
 			await conf.update('playwrightCommand', command);
