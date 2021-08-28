@@ -41,12 +41,6 @@
             "description": "Absolute path to project directory (e.g. /home/me/project/sub-folder)",
             "scope": "window"
           },
-          "playwrightrunner.playwrightDebugOptions": {
-            "type": "object",
-            "default": {},
-            "description": "Add or overwrite vscode debug configurations for Playwright (only in debug mode) (e.g. { \"args\": [\"--browser=all\"] })",
-            "scope": "window"
-          },
           "playwrightrunner.playwrightRunOptions": {
             "type": "array",
             "default": [],
