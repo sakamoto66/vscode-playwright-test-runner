@@ -36,12 +36,10 @@ export class PlaywrightCommandBuilder {
     debugCfg.args = [...cmds, ...this.buildArgs(config, filePath, currentTestName, false)];
     
     // setting envs
-    const envs = {
-      env:config.playwrightEnvironmentVariables
-    };
+    debugCfg.env = merge(debugCfg.env, config.playwrightEnvironmentVariables);
     
     //
-    return options ? merge(debugCfg, envs, options) : merge(debugCfg, envs);
+    return options ? merge(debugCfg, options) : debugCfg;
   }
 
   public static getTerminalOptions(filePath: vscode.Uri): vscode.TerminalOptions {
