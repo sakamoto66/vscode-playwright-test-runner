@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as vscode from 'vscode';
+import * as child_process from "child_process";
 
 export function isWindows(): boolean {
   return process.platform.includes('win32');
@@ -23,22 +24,6 @@ function getShellType(): string {
     return 'powershell';
   }
   return 'sh';
-}
-
-export function getEnvCommands(envs:string[]): string[] {
-  const shell = getShellType();
-  return envs.map(env => {
-    const [key,val] = env.split('=');
-    return getCommandToSetEnv(shell, key, val);
-  });
-}
-
-function getCommandToSetEnv(shell:string, key:string, val:string): string {
-  switch (shell) {
-      case 'powershell':return `$ENV:${key}="${val}"`;
-      case 'cmd':return `set ${key}=${val}`;
-  }
-  return `export ${key}=${val}`;
 }
 
 export function normalizePath(path: string): string {
@@ -184,4 +169,13 @@ export class PredefinedVars {
   public set(key:string, val:string){
       this.replaceMap.set("${"+key+"}", val);
   }
+}
+  
+export async function executeBackend(cmd:string): Promise<void> {
+  vscode.window.showInformationMessage(cmd);
+  child_process.exec(cmd, (error, stdout, stderr) => {
+    if(error instanceof Error) {
+      vscode.window.showErrorMessage(error.message);
+    } 
+  });
 }

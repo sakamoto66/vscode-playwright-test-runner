@@ -4,16 +4,34 @@ import { unquote, resolveTestNameStringInterpolation } from './util';
 
 import { PlaywrightCommandBuilder } from './playwrightCommandBuilder';
 
+export interface RunCommand {
+  command: string;
+  options:vscode.TerminalOptions;
+}
+
+export interface DebugCommand {
+  documentUri: vscode.Uri;
+  config: vscode.DebugConfiguration;
+}
+
 export class TestCase {
     public filePath:vscode.Uri = vscode.Uri.file('.');
     public testName:string | undefined = undefined;
   
-    public buildRunCommand(options?: string[]):string {
-      return PlaywrightCommandBuilder.buildCommand(this.filePath, this.testName, options);
+    public buildRunCommand(options?: string[]):RunCommand {
+      const cmd = PlaywrightCommandBuilder.buildCommand(this.filePath, this.testName, options);
+      return {
+        command: cmd,
+        options: PlaywrightCommandBuilder.getTerminalOptions(this.filePath)
+      };
     }
   
-    public buildDebugCommand(options?: unknown):vscode.DebugConfiguration {
-      return PlaywrightCommandBuilder.getDebugConfig(this.filePath, this.testName, options);
+    public buildDebugCommand(options?: unknown):DebugCommand {
+      const config = PlaywrightCommandBuilder.getDebugConfig(this.filePath, this.testName, options);
+      return {
+        config: config,
+        documentUri: this.filePath
+      };
     }
   
     public static toFile(file:vscode.Uri):TestCase {
