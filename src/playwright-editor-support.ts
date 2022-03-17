@@ -58,10 +58,12 @@ function findTestMethods(program: unknown): TestCode[] {
   const ptnName1 = new RegExp(`${escapeRegExp('expression/callee/name')}$`);
   const ptnName2 = new RegExp(`${escapeRegExp('expression/callee/object/name')}$`);
   const ptnName5 = new RegExp(`${escapeRegExp('expression/callee/object/object/name')}$`);
+  const ptnName6 = new RegExp(`${escapeRegExp('expression/callee/object/object/object/name')}$`);
   const funcNames1 = ['it', 'test', 'describe'];
   const funcNames2 = ['describe', 'only'];
   const funcNames5type1 = ['describe'];
-  const funcNames5type2 = ['serial'];
+  const funcNames5type2 = ['serial', 'parallel'];
+  const funcNames6type1 = ['only'];
 
   // convert
   const items:any[] = [];
@@ -95,7 +97,19 @@ function findTestMethods(program: unknown): TestCode[] {
     })
     .filter((f) => f[1]);
 
-  const all: string[][] = [...pathPrefix1, ...pathPrefix2, ...pathPrefix5];
+  // match test.xxx.xxx.xxx(...)
+  const pathPrefix6 = names
+    .filter((i) => ptnName6.test(i[0]))
+    .map((i) => {
+      const prefix = i[0].replace(ptnName6, 'expression/');
+      const type1 = items.find((i) => `${prefix}callee/object/object/property/name` === i[0] && -1 < funcNames5type1.indexOf(i[1]));
+      const type2 = items.find((i) => `${prefix}callee/object/property/name` === i[0] && -1 < funcNames5type2.indexOf(i[1]));
+      const type3 = items.find((i) => `${prefix}callee/property/name` === i[0] && -1 < funcNames6type1.indexOf(i[1]));
+      return [prefix, type1 && type2 && type3 ? type1[1] : null];
+    })
+    .filter((f) => f[1]);
+
+  const all: string[][] = [...pathPrefix1, ...pathPrefix2, ...pathPrefix5, ...pathPrefix6];
   all.sort((a, b) => (a[0] > b[0] ? 1 : -1));
 
   const elements: TestCode[] = all.map((prefix) => {
