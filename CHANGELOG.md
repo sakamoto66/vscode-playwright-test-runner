@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.3.0 - 2022-03-19
+
+- Feature: supported "test.describe.parallel" "test.describe.only" "test.describe.serial.only" "test.describe.parallel.only".
+
 ## 1.2.1 - 2021-08-28
 
 - Feature: Changed "playwright show-trace" from terminal startup to process startup.

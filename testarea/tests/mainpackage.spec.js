@@ -28,3 +28,8 @@ test.describe('describe 03', () => {
     });
   });
 });
+
+test.describe.parallel('describe 04', () => {
+  test('runs first 04', async ({ page }) => { /* ... */ });
+  test('runs second 04', async ({ page }) => { /* ... */ });
+});
