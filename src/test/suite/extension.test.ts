@@ -82,8 +82,8 @@ describe('Extension Commands', async () => {
 			await waitExistCheckFile(assetRootDir+'/'+output);
 		}).timeout('30s');
 
-		it('playwright.debugTest ./node_modules/playwright/lib/cli/cli.js', async () => {
-			await conf.update('playwrightCommand', "./node_modules/playwright/lib/cli/cli.js");
+		it('playwright.debugTest ./node_modules/playwright/cli.js', async () => {
+			await conf.update('playwrightCommand', "./node_modules/playwright/cli.js");
 			const output = 'reports/debugTest.cli.playwright.result.json';
 			await setAssertFile(output);
 			await vscode.commands.executeCommand("playwright.debugTest");
