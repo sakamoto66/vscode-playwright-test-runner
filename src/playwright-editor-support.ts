@@ -62,7 +62,7 @@ function findTestMethods(program: unknown): TestCode[] {
   const funcNames1 = ['it', 'test', 'describe'];
   const funcNames2 = ['describe', 'only'];
   const funcNames5type1 = ['describe'];
-  const funcNames5type2 = ['serial', 'parallel'];
+  const funcNames5type2 = ['only', 'serial', 'parallel'];
   const funcNames6type1 = ['only'];
 
   // convert
