@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import { parse, findTestCode } from './playwright-editor-support';
-import { unquote, resolveTestNameStringInterpolation } from './util';
+import { unquote } from './util';
 
 import { PlaywrightCommandBuilder } from './playwrightCommandBuilder';
+import { RunnerConfig } from './runnerConfig';
 
 export interface RunCommand {
   command: string;
@@ -19,7 +20,16 @@ export class TestCase {
     public testName:string | undefined = undefined;
   
     public buildRunCommand(options?: string[]):RunCommand {
-      const cmd = PlaywrightCommandBuilder.buildCommand(this.filePath, this.testName, options);
+      const config = new RunnerConfig(this.filePath);
+      const runOptions = [];
+      const project = config.playwrightRunProject;
+      if(project && 0 < project.length) {
+        runOptions.push(`--project="${project}"`);
+      }
+      if(options) {
+        runOptions.push(...options);
+      }
+      const cmd = PlaywrightCommandBuilder.buildCommand(this.filePath, this.testName, runOptions);
       return {
         command: cmd,
         options: PlaywrightCommandBuilder.getTerminalOptions(this.filePath)
@@ -31,6 +41,23 @@ export class TestCase {
       return {
         config: config,
         documentUri: this.filePath
+      };
+    }
+  
+    public buildInspectCommand(options?: string[]):RunCommand {
+      const config = new RunnerConfig(this.filePath);
+      const inspectOptions = ['--debug', '--reporter=null'];
+      const project = config.playwrightInspectProject;
+      if(project && 0 < project.length) {
+        inspectOptions.push(`--project="${project}"`);
+      }
+      if(options) {
+        inspectOptions.push(...options);
+      }
+      const cmd = PlaywrightCommandBuilder.buildCommand(this.filePath, this.testName, inspectOptions);
+      return {
+        command: cmd,
+        options: PlaywrightCommandBuilder.getTerminalOptions(this.filePath)
       };
     }
   

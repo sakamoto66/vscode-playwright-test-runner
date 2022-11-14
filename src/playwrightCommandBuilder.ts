@@ -32,8 +32,15 @@ export class PlaywrightCommandBuilder {
       debugCfg.program = executer;
     }
 
+    // select project
+    const debugOptions = [];
+    const project = config.playwrightDebugProject;
+    if(project && 0 < project.length) {
+      debugOptions.push(`--project="${project}"`);
+    }
+
     // setting args of execute command
-    debugCfg.args = [...cmds, ...this.buildArgs(config, filePath, currentTestName, false)];
+    debugCfg.args = [...cmds, ...this.buildArgs(config, filePath, currentTestName, false, debugOptions)];
     
     // setting envs
     debugCfg.env = merge(debugCfg.env, config.playwrightEnvironmentVariables);

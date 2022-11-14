@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.4.0 - 2022-11-14
+
+- Feature: update inspector mode. Added --debug and --reporter=null to the inspector run options.
+- Feature: add playwrightrunner.playwrightRunProject
+- Feature: add playwrightrunner.playwrightDebugProject
+- Feature: add playwrightrunner.playwrightInspectProject
+
 ## 1.3.0 - 2022-03-19
 
 - Feature: supported "test.describe.parallel" "test.describe.only" "test.describe.serial.only" "test.describe.parallel.only".
