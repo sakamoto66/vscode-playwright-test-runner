@@ -6,10 +6,7 @@ export class MultiRunner {
   private previousDebugCommand: DebugCommand | undefined;
 
   public async runTest(testcase:TestCase, options?: string[]): Promise<void> {
-    const cmds = [];
-
     const cmd = testcase.buildRunCommand(options);
-
     await this.executeRunCommand(cmd);
   }
 
@@ -18,6 +15,11 @@ export class MultiRunner {
     await this.executeDebugCommand(cmd);
   }
   
+  public async inspectTest(testcase:TestCase): Promise<void> {
+    const cmd = testcase.buildInspectCommand();
+    await this.executeRunCommand(cmd);
+  }
+    
   public async runPreviousTest(): Promise<void> {
     if (this.previousRunCommand) {
       await this.executeRunCommand(this.previousRunCommand);
