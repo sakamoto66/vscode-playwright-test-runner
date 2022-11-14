@@ -39,6 +39,24 @@ export class RunnerConfig {
     return (new PredefinedVars(this.base)).replace(filepath).trim();
   }
 
+  public get playwrightRunProject(): string | undefined {
+    const project = vscode.workspace.getConfiguration().get<string>('playwrightrunner.playwrightRunProject');
+    if(!project || 0 === project.length) {return '';}
+    return (new PredefinedVars(this.base)).replace(project).trim();
+  }
+
+  public get playwrightDebugProject(): string | undefined {
+    const project = vscode.workspace.getConfiguration().get<string>('playwrightrunner.playwrightDebugProject');
+    if(!project || 0 === project.length) {return '';}
+    return (new PredefinedVars(this.base)).replace(project).trim();
+  }
+
+  public get playwrightInspectProject(): string | undefined {
+    const project = vscode.workspace.getConfiguration().get<string>('playwrightrunner.playwrightInspectProject');
+    if(!project || 0 === project.length) {return '';}
+    return (new PredefinedVars(this.base)).replace(project).trim();
+  }
+
   public get playwrightRunOptions(): string[] {
     return vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightRunOptions') || [];
   }

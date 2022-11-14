@@ -51,6 +51,9 @@ sample : `/workspace/packages/sample/tests/test.spec.js`
 | playwrightrunner.playwrightCommand | Define an alternative playwright command (e.g. `npx playwright`) |
 | playwrightrunner.playwrightConfigPath | Playwright config path (relative to ${packageRoot} e.g. `playwright.config.ts`) |
 | playwrightrunner.playwrightRunOptions | Add CLI Options to the playwright Command (e.g. `--headed`) <https://playwright.dev/docs/test-intro> |
+| playwrightrunner.playwrightRunProject | Specify the project to run Test (e.g. `chromium`) |
+| playwrightrunner.playwrightDebugProject | Specify the project to run Debug (e.g. `chromium`) |
+| playwrightrunner.playwrightInspectProject | Specify the project to run inspector (e.g. `chromium`) |
 | playwrightrunner.playwrightEnvironmentVariables | Add Environment Variables  (e.g. `NODE_ENV=product`) |
 
 ### Extension Settings for common
