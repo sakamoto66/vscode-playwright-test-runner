@@ -42,7 +42,7 @@ export function activate(context: vscode.ExtensionContext): void {
       testname = typeof testname === 'string' ? testname : undefined;
       TestCase.toEditor(testname).then( testcase => {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        multiRunner.debugTest(testcase, { env: { PWDEBUG: 1 } });
+        multiRunner.inspectTest(testcase);
       });
     }
   ));
