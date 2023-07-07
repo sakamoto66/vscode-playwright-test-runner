@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.4.1 - 2023-07-07
+
+- Fix: #17 Fixed incorrect parsing of environment variables.
+
+
 ## 1.4.0 - 2022-11-14
 
 - Feature: update inspector mode. Added --debug and --reporter=null to the inspector run options.
