@@ -60,6 +60,31 @@ describe('runnerConfig', async () => {
 			// eslint-disable-next-line @typescript-eslint/naming-convention
 			assert.deepStrictEqual({AA:'123'}, config.playwrightEnvironmentVariables);
 		});
+		it('playwrightEnvironmentVariables test 2', async () => {
+			await conf.update('playwrightEnvironmentVariables', ["AA=123=456"]);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			assert.deepStrictEqual({AA:'123=456'}, config.playwrightEnvironmentVariables);
+		});
+		it('playwrightEnvironmentVariables test 3', async () => {
+			await conf.update('playwrightEnvironmentVariables', ["AA="]);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			assert.deepStrictEqual({AA:''}, config.playwrightEnvironmentVariables);
+		});
+		it('playwrightEnvironmentVariables test 4', async () => {
+			await conf.update('playwrightEnvironmentVariables', ["AA"]);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			assert.deepStrictEqual({AA:''}, config.playwrightEnvironmentVariables);
+		});
+		it('playwrightEnvironmentVariables test 4', async () => {
+			await conf.update('playwrightEnvironmentVariables', ['AA="1234"']);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			assert.deepStrictEqual({AA:'"1234"'}, config.playwrightEnvironmentVariables);
+		});
+		it('playwrightEnvironmentVariables test 5', async () => {
+			await conf.update('playwrightEnvironmentVariables', ["AA=123=456=789"]);
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			assert.deepStrictEqual({AA:'123=456=789'}, config.playwrightEnvironmentVariables);
+		});
 		it('playwrightEnvironmentVariables test default', async () => {
 			await conf.update('playwrightEnvironmentVariables', undefined);
 			assert.deepStrictEqual({}, config.playwrightEnvironmentVariables);
