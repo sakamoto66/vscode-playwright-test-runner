@@ -65,7 +65,8 @@ export class RunnerConfig {
     const data:string[] = vscode.workspace.getConfiguration().get<string[]>('playwrightrunner.playwrightEnvironmentVariables') || [];
     const envs:{ [key:string]: string; } = {};
     data.forEach(env => {
-      const [key,val] = env.split('=');
+      const [key, ...rest] = env.split('=');
+      const val = rest.join('=');
       envs[key] = val;
     });
     return envs;
